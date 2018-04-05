@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+    name: movie
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: movie
+    template:
+        metadata:
+            labels:
+                app: movie
+        spec:
+            nodeSelector:
+                role: worker
+            containers:
+                - name: movie
+                  image: sh4d1/wat-movie-service
+                  imagePullPolicy: Always
+                  command: [
+                      "./wat-movie-service",
+                      "--server_address=:8080"
+                  ]
+                  env:
+                    - name: GO_HTTP_PROXY
+                      value: "http://192.168.66.1:8888"
+                    - name: OMDB_API_KEY
+                      valueFrom:
+                          secretKeyRef:
+                              name: movie-api
+                              key: omdb-api-key
+                  ports:
+                      - containerPort: 8080
+                        name: movie-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: movie
+    labels:
+        app: movie
+spec:
+    ports:
+        - port: 8080
+    selector:
+        app: movie

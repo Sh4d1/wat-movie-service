@@ -8,7 +8,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
 
 FROM alpine:3.6
-
+ENV HTTP_PROXY=http://192.168.66.1:8888
 RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app

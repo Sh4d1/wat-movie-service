@@ -16,7 +16,7 @@ spec:
                 role: worker
             containers:
                 - name: movie
-                  image: sh4d1/wat-movie-service
+                  image: sh4d1/wat-movie-service:{{ build.commit }}
                   imagePullPolicy: Always
                   command: [
                       "./wat-movie-service",

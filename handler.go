@@ -111,9 +111,9 @@ func (s *service) List(ctx context.Context, req *pb.ListRequest, res *pb.Respons
 func (s *service) Get(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 
 	apiKey := os.Getenv("OMDB_API_KEY")
-	name := strings.Replace(url.QueryEscape(req.Name), " ", "+", -1)
+	imdb := strings.Replace(url.QueryEscape(req.Imdb), " ", "+", -1)
 
-	url := fmt.Sprintf("http://www.omdbapi.com/?t=%s&type=movie&apikey=%s", name, apiKey)
+	url := fmt.Sprintf("http://www.omdbapi.com/?i=%s&type=movie&apikey=%s", imdb, apiKey)
 	get, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Printf("GetReq: ", err)

@@ -8,7 +8,7 @@ service MovieService {
 }
 
 message GetRequest {
-    string name = 1;
+    string imdb = 1;
 }
 
 message ListRequest {
